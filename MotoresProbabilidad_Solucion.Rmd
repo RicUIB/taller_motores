@@ -1,145 +1,212 @@
 ---
-title: "Probabilidad de  éxito en dos configuraciones de un motor."
+title: "Probabilidad de éxito en dos configuraciones de un motor"
 author: ''
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
-  html_document:
-    toc: yes
-    df_print: paged
   pdf_document:
     toc: yes
   word_document:
     toc: yes
+  html_document:
+    toc: yes
+    df_print: paged
 citecolor: blue
 toccolor: red
 urlcolor: blue
+editor_options: 
+  markdown: 
+    wrap: 72
+header-includes:
+  - \renewcommand{\contentsname}{Contenidos}    
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Taller 1 Probabilidad
+# Taller 1. Probabilidad
 
 ## Enunciado
 
-Supongamos que tenemos un motor con dos partes diferenciadas: $P_1$ y $P_2$: 
-por ejemplo, P1 activa la bomba de gasolina en el depósito y P2 la enciende 
-para iniciar la combustión. Para garantizar que nuestro motor funciona,
-decidimos poner dos interruptores, dos en P1 y dos en P2 que activan la 
-bomba de gasolina y la combustión respectivamente. Se nos presentan dos 
-formas de configurar estas partes:
+Supongamos que tenemos un motor con dos partes diferenciadas: $P_1$ y
+$P_2$. Por ejemplo, $P_1$ activa la bomba de gasolina en el depósito y
+$P_2$ activa el sistema de encendido para iniciar la combustión. Para
+garantizar el funcionamiento del motor decidimos instalar cuatro
+interruptores: dos asociados a $P_1$ y dos asociados a $P_2$. Se nos
+presentan dos formas de configurar estos interruptores:
 
--   Opción 1: Tanto $P_1$ como $P_2$ tiene sus dos interruptores conectados 
-en paralelo. De forma que los dos interruptores de $P_1$ se encuentran en serie 
-con los dos de $P_2$ Es decir, para que el motor funcione, se debería poner en 
-marcha un interruptor de $P_1$ cualquiera, y un interruptor de $P_2$ cualquiera.
+- **Opción 1:** Tanto $P_1$ como $P_2$ tienen sus dos interruptores
+  conectados en paralelo, y los dos bloques se encuentran conectados en
+  serie. Es decir, para que el motor funcione debe funcionar al menos
+  uno de los interruptores de $P_1$ y al menos uno de los interruptores
+  de $P_2$.
 
--   Opción 2: Conectamos en serie un interruptor de $P_1$ y uno de $P_2$, 
-y en paralelo a estos dos un nuevo interruptor de $P_1$ en serie con otro de 
-$P_2$. En este caso, para que el motor se ponga en marcha debería actuar 
-correctamente el interruptor de $P_1$ del primer circuito a la vez que el 
-de $P_2$ del primer circuito o bien el segundo interruptor de $P_1$ junto 
-con el segundo de $P_2$
+- **Opción 2:** Conectamos en serie un interruptor de $P_1$ y uno de
+  $P_2$. En paralelo a esta rama situamos otra formada por el segundo
+  interruptor de $P_1$ conectado en serie con el segundo interruptor de
+  $P_2$. En este caso, para que el motor funcione deben funcionar los
+  dos interruptores de alguna de las dos ramas.
 
-Los interruptores funcionan con una probabilidad $p$ fijada y de forma 
-independiente. La pregunta es ¿cuál de las dos configuraciones es la 
-más recomendable para instalar en nuestro motor 
-en función del parámetro $p$? Necesitaremos una justificación matemática del
-hecho, pero se puede combinar con un resultado numérico (por ejemplo, 
-para ciertos valores de $p$, dar las probabilidades de los dos circuitos y ver 
-si, a partir de cierto valor es más recomendable una configuración u otra).
+Cada interruptor funciona con una probabilidad $p$ y suponemos que los
+cuatro interruptores funcionan de forma conjuntamente independiente.
 
-Indicación: utilizar los esquemas que se dan a continuación para visualizar
-las dos opciones de configuración del motor
+**La pregunta es**: ¿Cuál de las dos configuraciones es más fiable en función del parámetro \(p\)?
+
+Necesitaremos una justificación matemática, aunque podremos combinarla
+con cálculos y representaciones realizadas con `R`.
+
+**Indicación:** utilizar los esquemas siguientes para visualizar las dos
+configuraciones del motor.
 
 ## Esquemas
 
-```{r motores12, fig.align='center', caption="Esquemas de las opciones 1 y 2",out.width="200%",echo=FALSE}
-knitr::include_graphics("motoresOpcion1y2.png")
+```{r motores12, echo=FALSE, fig.align="center",  fig.cap="Esquemas de las opciones 1 y 2",out.width="85%"}
+knitr::include_graphics("motoresOpcion1y2.png", auto_pdf = FALSE)
 ```
+### Solución 1: comparación mediante inclusión de sucesos
 
+Denotemos por $A_i$ y $B_i$ los sucesos correspondientes al
+funcionamiento de los dos interruptores situados en la parte $P_i$, para
+$i=1,2$. Por tanto,
 
+$$P(A_i)=P(B_i)=p,\qquad i=1,2.$$
 
+Suponemos, además, que los cuatro sucesos son independientes.
 
-### Solución forma 1
+Denotemos por $OP_i$ el suceso «la opción $i$ funciona», para $i=1,2$.
 
-Lo resolveremos de dos maneras, la primera es más elegante y algebraica, 
-la segunda es numérica.
+A partir de los esquemas podemos escribir
 
-### Solución forma 1
+$$OP_1=(A_1\cup B_1)\cap(A_2\cup B_2)$$
 
-Denotemos por $A_1$, $A_2$, $B_1$ y $B_2$ los sucesos en los 
-que los respectivos interruptores funcionan por lo tanto $P(A_i)=P(B_i)=p$ 
-para $i=1,2$. Suponemos que estos 
-sucesos son independientes. Denotemos por $OP_i$ al suceso las opción $i$ 
-funciona para $i=1,2$.
+y
 
-Estos sucesos se pueden escribir en términos de los funcionamientos de 
-los interruptores tal y como escribimos a continuación
+$$OP_2=(A_1\cap A_2)\cup(B_1\cap B_2).$$
 
-$$OP_1=(A_1\cup B_1)\cap (A_2\cup B_2) \mbox{ y } OP_2=(A_1\cap A_2)\cup (B_1\cap B_2)$$
+La pregunta fundamental es cuál de las dos configuraciones tiene mayor
+probabilidad de funcionar.
 
-La pregunta fundamental del problema es qué opción de configuración es más 
-fiable, es decir, cuál tiene mayor probabilidad de funcionar.
+Una primera forma de responder consiste en comparar directamente los dos
+sucesos.
 
-La respuesta más sencilla es demostrar que el suceso $OP_2$ está contenido en 
-$OP_1$. Es sencillo ya que $(A_1\cap A_2)\subseteq A_1\subseteq (A_1\cup B_1)$ 
-y del mismo modo $(B_1\cap B_2)\subseteq B_2\subseteq (A_2\cup B_2)$. 
-Por lo tanto tenemos que 
+Por una parte,
 
-$$OP_2=(A_1\cap A_2)\cup (B_1\cap B_2) \subseteq (A_1\cup B_1)\cap 
-(A_2\cup B_2)= OP_1$$ y aplicando la monotonía de la probabilidad tenemos que 
-si $OP_2\subseteq OP_1$ entonces $P(OP_2)\leq P(OP_1)$.
+$$A_1\cap A_2\subseteq A_1\subseteq A_1\cup B_1$$
 
-Así que la configuración de la opción 2 tiene siempre la misma (o igual) 
-probabilidad de funcionar que la de la opción 1. Notemos que no hemos utilizado
-que las probabilidades de funcionamiento de los interruptores sean iguales a 
-$p$, así que el resultado sería cierto si cada interruptor funciona con una 
-probabilidad distinta, ni tampoco hemos utilizado la independencia.
+y
 
-### Solución forma 2
+$$A_1\cap A_2\subseteq A_2\subseteq A_2\cup B_2.$$
 
-Utilizaremos las mismas notaciones que en la solución 1. Ahora atacaremos el 
-problema calculado la probabilidad de $OP_1$ y $OP_2$
+Por tanto,
 
-$$
-\begin{aligned}
-P(OP_1) & =P((A_1\cup B_1)\cap (A_2\cup B_2))=1-P\Big(\big[(A_1\cup B_1)\cap 
-(A_2\cup B_2)\big]^c\Big) \\
- & =1-P\left((A_1^c\cap B_1^c)\cup (A_2^c\cap B_2^c)\right)\\
- &=1-\left( P(A_1^c\cap B_1^c)+P(A_2^c\cap B_2^c)-P(A_1^c\cap B_1^c\cap
- A_2^c\cap B_2^c)\right)\\
- & =1-\Big(P(A_1^c)\cdot P(B_1^c)+P(A_2^c)\cdot P(B_2^c)- P(A_1^c) \cdot 
- P(B_1^c) \cdot P(A_2^c) \cdot P(B_2^c)\Big)\\
- & =1-\left((1-p)^2+(1-p)^2-(1-p)^4\right)= 1- 2 \cdot (1-p)^2 + (1-p)^4.\\
-\end{aligned}
-$$
+$$A_1\cap A_2
+\subseteq
+(A_1\cup B_1)\cap(A_2\cup B_2)=OP_1.$$
 
-Ahora de forma similar con la configuración 2
+De forma análoga,
 
-$$
-\begin{aligned}
-P(OP_2) & =P\left((A_1\cap A_2)\cup (B_1\cup B_2)\right)=P(A_1\cap A_2)+
-P(B_1\cup B_2)-P(A_1\cap A_2\cap B_1\cap B_2)\\
-  &=P(A_1)\cdot P(A_2)+P(B_1)\cdot P(B_2)- P(A_1) \cdot P(B_1) 
-  \cdot P(A_2) \cdot P(B_2)\\
- & = p^2+p^2-p^4=2\cdot p^2-p^4.\\
-\end{aligned}
-$$
+$$B_1\cap B_2\subseteq B_1\subseteq A_1\cup B_1$$
 
-Definamos, con `R` dos funciones que nos calculen la fiabilidad 
-(probabilidad de funcionamiento) de cada uno de las dos configuraciones del motor:
+y
+
+$$B_1\cap B_2\subseteq B_2\subseteq A_2\cup B_2,$$
+
+de modo que
+
+$$B_1\cap B_2
+\subseteq
+(A_1\cup B_1)\cap(A_2\cup B_2)=OP_1.$$
+
+Como los dos sucesos que forman $OP_2$ están contenidos en $OP_1$,
+
+$$OP_2=(A_1\cap A_2)\cup(B_1\cap B_2)\subseteq OP_1.$$
+
+Por la monotonía de la probabilidad,
+
+$$P(OP_2)\leq P(OP_1).$$
+
+Por tanto, la configuración de la opción 1 es siempre al menos tan
+fiable como la configuración de la opción 2.
+
+Es importante observar que para obtener esta conclusión no hemos
+utilizado ni la independencia de los interruptores ni el hecho de que
+todos tengan la misma probabilidad de funcionamiento. La comparación
+anterior sigue siendo válida aunque los cuatro interruptores tengan
+probabilidades diferentes de funcionamiento o exista dependencia entre
+ellos.
+
+### Solución 2: cálculo explícito de las probabilidades
+
+Utilizaremos ahora las mismas notaciones, pero calcularemos
+explícitamente las probabilidades de funcionamiento de las dos
+configuraciones.
+
+Para la opción 1, cada una de las partes $P_i$ funciona si lo hace al
+menos uno de sus dos interruptores. Por independencia,
+
+$$\begin{aligned}
+P(A_i\cup B_i)
+&=1-P(A_i^c\cap B_i^c)\\
+&=1-P(A_i^c)P(B_i^c)\\
+&=1-(1-p)^2.
+\end{aligned}$$
+
+Además, los sucesos $A_1\cup B_1$ y $A_2\cup B_2$ son independientes, ya
+que dependen de dos grupos distintos de interruptores independientes.
+Por tanto,
+
+$$\begin{aligned}
+P(OP_1)
+&=P\left((A_1\cup B_1)\cap(A_2\cup B_2)\right)\\
+&=P(A_1\cup B_1)\,P(A_2\cup B_2)\\
+&=\left[1-(1-p)^2\right]^2\\
+&=1-2(1-p)^2+(1-p)^4.
+\end{aligned}$$
+
+Para la segunda configuración,
+
+$$\begin{aligned}
+P(OP_2)
+&=P\left((A_1\cap A_2)\cup(B_1\cap B_2)\right)\\
+&=P(A_1\cap A_2)+P(B_1\cap B_2)
+-P(A_1\cap A_2\cap B_1\cap B_2)\\
+&=P(A_1)P(A_2)+P(B_1)P(B_2)
+-P(A_1)P(A_2)P(B_1)P(B_2)\\
+&=p^2+p^2-p^4\\
+&=2p^2-p^4.
+\end{aligned}$$
+
+### Exploración con R y  gráficas
+
+Definamos en `R` dos funciones que calculen la fiabilidad de cada una de
+las configuraciones:
 
 ```{r}
 ProbOp1=function(p) 1-2*(1-p)^2+(1-p)^4
 ProbOp2=function(p) 2*p^2-p^4
 ```
 
-Dibujemos ambas curvas con las decoraciones adecuadas (colores, leyenda,
-etiquetas de los ejes, etc.)
+Antes de representar las funciones podemos comparar numéricamente ambas
+configuraciones para algunos valores de $p$:
 
-```{r     ,fig.align='center'}
+```{r}
+valores_p <- c(0.10, 0.25, 0.50, 0.75, 0.90)
+
+tabla <- data.frame(
+  p = valores_p,
+  opcion1 = ProbOp1(valores_p),
+  opcion2 = ProbOp2(valores_p),
+  diferencia = ProbOp1(valores_p) - ProbOp2(valores_p)
+)
+
+knitr::kable(tabla, digits = 4,
+             col.names = c("p", "Opción 1", "Opción 2", "Diferencia"))
+```
+
+Dibujemos ahora ambas curvas:
+
+```{r, fig.align='center'}
 curve(ProbOp1(x),col="red",xlim=c(-0.2,1.2),
       xlab=paste("Valor de ",expression("p"),collapse=" "),
       ylab="Probabilidad de funcionamiento", 
@@ -150,12 +217,9 @@ legend(x="topleft",legend=c("Probabilidad opción 1",
        col=c("red","blue"),pch = 19)
 ```
 
-Pero no es suficiente, podemos hacer más. Por ejemplo la configuración en 
-serie de los dos interruptores en paralelo podría ser más cara pues necesita 
-dos conexiones adicionales.
-
-Necesitamos dibujar la curva de la mejora de la probabilidad de funcionamiento 
-de la opción 1 contra la 2:
+Podemos estudiar también cuánto mejora la fiabilidad de la opción 1
+respecto de la opción 2. Para ello representamos la diferencia entre
+ambas probabilidades:
 
 ```{r,fig.align='center'}
 curve(ProbOp1(x)-ProbOp2(x),col="red",xlim=c(-0.2,1.2), ylim=c(0,0.2),
@@ -164,68 +228,125 @@ curve(ProbOp1(x)-ProbOp2(x),col="red",xlim=c(-0.2,1.2), ylim=c(0,0.2),
       main=" Ganancia en fiabilidad  \n de la OP1 sobre la OP2")
 ```
 
-Pero además podemos calcular esto numéricamente.
+### Comparación algebraica
 
-La pregunta es ¿cuándo $P(OP_1)\geq P(OP_2)$? Para ello definamos
+Definamos
 
-$$Dif(p)=P(OP_1)-P(OP_2)= 1- 2 \cdot (1-p)^2 + 
-(1-p)^4-\left( 2\cdot p^2-p^4\right)$$.
+$$Dif(p)=P(OP_1)-P(OP_2).$$
 
-Operando obtenemos que
+Entonces,
 
+$$\begin{aligned}
+Dif(p)
+&=1-2(1-p)^2+(1-p)^4-\left(2p^2-p^4\right)\\
+&=1-2(1-2p+p^2)
+  +(1-4p+6p^2-4p^3+p^4)
+  -2p^2+p^4\\
+&=1-2+4p-2p^2
+  +1-4p+6p^2-4p^3+p^4
+  -2p^2+p^4\\
+&=2p^2-4p^3+2p^4\\
+&=2p^2(1-2p+p^2)\\
+&=2p^2(1-p)^2.
+\end{aligned}$$
+
+Para estudiar el signo de $Dif(p)$ podemos utilizar que se trata de una
+función continua. Sus ceros en el intervalo $[0,1]$ vienen dados por
+
+$$2p^2(1-p)^2=0,$$
+
+es decir,
+
+$$p=0
+\qquad\text{o}\qquad
+p=1.$$
+
+No existen, por tanto, ceros en el intervalo $(0,1)$. Como $Dif$ es
+continua, mantiene el signo en todo ese intervalo. Evaluando, por
+ejemplo, en $p=\frac12$,
+
+$$Dif\left(\frac12\right)
+=
+2\left(\frac12\right)^2
+\left(1-\frac12\right)^2
+=
+`r ProbOp1(1/2)-ProbOp2(1/2)`  >0.
 $$
-\begin{aligned}
-Dif(p) 
-  & =P(OP_1)- P(OP_2)= 1- 2 \cdot (1-p)^2 + (1-p)^4-
-  \left( 2\cdot p^2-p^4\right)\\
-  & = 1- 2 (1-2 \cdot p + p^2) +1-4\cdot p +6\cdot p^2-4 \cdot p^3+p^4 -2 
-  \cdot p^2+ p^4- 2\cdot p^2+p^4=\\
-  & = 2\cdot p^2-4 p^2 +2\cdot p^3= 2\cdot p^2 (1-2\cdot p+p^2)\\
-  & = 2\cdot p^2 (1-p)^2.
-\end{aligned}
-$$
 
-Como $Dif(p)$ es una función continua para saber cuando es positiva 
-resolvemos la desigualdad
+Por tanto,
 
-$$Dif(p)=2\cdot p^2 (1-p)^2>0.$$ La soluciones corresponden a las de 
-las ecuaciones
+$$P(OP_1)>P(OP_2)
+\qquad\text{para todo }0<p<1.$$
 
-$$
-\left\{
-\begin{aligned}
-& p^2=0\\
-& (1-p)^2=  0\\
-\end{aligned}
-\right.
-$$
+Las dos configuraciones tienen la misma probabilidad de funcionamiento
+únicamente en los casos extremos $p=0$ y $p=1$.
 
-que son $p=0$ y $p=1$. Como $Dif\left(\frac{1}{2}\right)= 2 
-\left(\frac{1}{2}\right)^2 \cdot \left(1-\frac{1}{2}\right)^2=
-`r ProbOp1(1/2)-ProbOp2(1/2)`> 0$ tenemos que $Dif(p)>0$ para todo $p$ 
-tal que $0<p<1$.
+### Máxima ganancia de fiabilidad
 
-Los candidatos a diferencia máxima se alcanza en los valores de $p$ tales que
+Podemos preguntarnos para qué valor de $p$ es máxima la diferencia entre
+las probabilidades de funcionamiento de las dos configuraciones.
 
-$$(Dif(p))'= 4\cdot p (1-p)^2-4\cdot p^2\cdot(1-p)= 4\cdot p-12\cdot 
-p^2+8\cdot p^3 $$
+Como
 
-La soluciones son $p=0,1,\frac{1}{2}$. Calculemos la segunda derivada
+$$Dif(p)=2p^2(1-p)^2,$$
 
-$$(Dif(p))''= 4-24\cdot p+24\cdot p^2$$
+su derivada es
 
-Podemos averiguar sin los candidatos a puntos singulares son máximos mínimos 
-o puntos de inflexión estudiando si la segunda derivada es positiva o 
-negativa en los puntos adecuados.
+$$\begin{aligned}
+Dif'(p)
+&=4p(1-p)^2-4p^2(1-p)\\
+&=4p(1-p)(1-2p).
+\end{aligned}$$
 
-$$
-\begin{aligned}
- (Dif(-1))'' & = `r 4-24* (-1)+24*(-1)^2`>0\\
- (Dif(0))'' & =  `r 4-24* (0)+24*(0)^2`>0\\
-\Big(Dif\left(\frac{1}{2}\right)\Big)'' & =  `r 4-24* (1/2)+24*(1/2)^2`<0\\ 
-(Dif(1))'' &= `r 4-24* (1)+24*(1)^2`>0\\
- (Dif(2))'' & =   `r 4-24* (2)+24*(2)^2`>0\\
-\end{aligned}
-$$ Dejamos al lector los detalles pero el máximo se alcanza en 
-$p=\frac{1}{2}$ y su valor es $Dif\left(\frac{1}{2}\right)=
-`r ProbOp1(1/2)-ProbOp2(1/2)`$
+Los puntos que debemos considerar en el intervalo $[0,1]$ son
+
+$$p=0,\qquad p=\frac12,\qquad p=1.$$
+
+Evaluando $Dif$ en estos puntos,
+
+$$Dif(0)=0,$$
+
+$$Dif\left(\frac12\right)
+=
+2\left(\frac12\right)^2
+\left(1-\frac12\right)^2
+=
+\frac18,$$
+
+y
+
+$$Dif(1)=0.$$
+
+Por tanto, la mayor diferencia entre las probabilidades de
+funcionamiento de las dos configuraciones se alcanza para
+
+$$p=\frac12,$$
+
+y la ganancia máxima de fiabilidad de la opción 1 respecto de la opción
+2 es
+
+$$Dif\left(\frac12\right)=\frac18=0.125.$$
+
+### Conclusión
+
+La primera configuración es siempre al menos tan fiable como la segunda.
+Además, cuando todos los interruptores tienen una misma probabilidad de
+funcionamiento $p$ y son independientes, la opción 1 es estrictamente
+más fiable para cualquier $0<p<1$.
+
+La diferencia entre ambas probabilidades es
+
+$$P(OP_1)-P(OP_2)=2p^2(1-p)^2,$$
+
+y alcanza su valor máximo, igual a $1/8$, cuando $p=1/2$.
+
+### Pregunta adicional
+
+La mayor fiabilidad de una configuración puede ir acompañada de un mayor
+coste de instalación. Supongamos, por ejemplo, que se considera que la
+mejora de fiabilidad solo justifica el coste adicional cuando
+
+$$P(OP_1)-P(OP_2)\geq 0.05.$$
+
+Determinar, de forma algebraica o numérica con `R`, para qué valores de
+$p$ se cumple esta condición.
