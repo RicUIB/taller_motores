@@ -3,13 +3,16 @@ title: "Probabilidad de éxito en dos configuraciones de un motor"
 author: ''
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output:
-  pdf_document:
-    toc: yes
-  word_document:
-    toc: yes
   html_document:
     toc: yes
+    toc_depth: 3
     df_print: paged
+  word_document:
+    toc: yes
+    toc_depth: 3
+  pdf_document:
+    toc: yes
+    toc_depth: 3
 citecolor: blue
 toccolor: red
 urlcolor: blue
@@ -25,7 +28,7 @@ header-includes:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Taller 1. Probabilidad
+# Taller Probabilidad Básica e Introdución a R
 
 ## Enunciado
 

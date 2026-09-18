@@ -2,7 +2,7 @@
 
 ## Probabilidad de éxito en dos configuraciones de un motor
 
-Taller introductorio de probabilidad para el **Grado en Matemáticas**.
+Taller introductorio de probabilidad para el **curso introductorio probabilidad y estadística**.
 
 El objetivo es comparar la fiabilidad de dos configuraciones de un sistema formado por cuatro interruptores independientes, combinando:
 
@@ -17,11 +17,13 @@ El objetivo es comparar la fiabilidad de dos configuraciones de un sistema forma
   <img src="motoresOpcion1y2.png" width="750">
 </p>
 
-## Material
+## Material.
 
-* [Ver el taller en HTML](https://TU-USUARIO.github.io/TU-REPOSITORIO/)
-* [Código fuente R Markdown](Taller1.Rmd)
-* [Versión PDF](Taller1.pdf)
+Lo más práctico e clonar o descaragr el repositorio en local.
+
+* [Ver el taller en HTML](https://ricuib.github.io/taller_motores/)
+* [Código fuente R Markdown](MotoresProbabilidad_Solucion.Rmd)
+* [Versión PDF](MotoresProbabilidad_Solucion.pdf)
 
 ## Contenidos
 
